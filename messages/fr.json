@@ -1,5 +1,10 @@
 {
   "Home": {
     "title": "Bienvenue sur la page d'accueil"
+  },
+  "Sidebar": {
+    "home": "Mes sites web",
+    "trash": "Corbeille",
+    "all": "Tous les sites web"
   }
 }

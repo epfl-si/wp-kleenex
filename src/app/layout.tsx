@@ -6,6 +6,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
 import { Header } from '@/components/header';
+import { Sidebar } from '@/components/sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,7 +31,10 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 			<body className={cn('antialiased h-full flex flex-col', inter.className)}>
 				<NextIntlClientProvider messages={messages}>
 					<Header />
-					<div className="flex-grow">{children}</div>
+					<main className="flex sm:h-[calc(100%-90px)]">
+						<Sidebar />
+						{children}
+					</main>
 				</NextIntlClientProvider>
 			</body>
 		</html>

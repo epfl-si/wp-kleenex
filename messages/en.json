@@ -1,5 +1,10 @@
 {
   "Home": {
     "title": "Welcome to the home page"
+  },
+  "Sidebar": {
+    "home": "My websites",
+    "trash": "Trash",
+    "all": "All websites"
   }
 }
