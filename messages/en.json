@@ -4,7 +4,69 @@
   },
   "Sidebar": {
     "home": "My websites",
+    "new": "New website",
     "trash": "Trash",
     "all": "All websites"
+  },
+  "SitesList": {
+    "title": "All websites list",
+    "error": {
+      "text": "An error occurred while loading websites",
+      "subText": "Please try again later",
+      "empty": "No websites found"
+    }
+  },
+  "NewSite": {
+    "title": "Create a new site",
+    "subTitle": "Add a new site to your list",
+    "information": {
+      "title": "Site Information",
+      "name": {
+        "label": "Site Title",
+        "placeholder": "My test site",
+        "description": "The title of your WordPress site."
+      },
+      "tagline": {
+        "label": "Site Tagline",
+        "placeholder": "My test site tagline",
+        "description": "A short description of your site."
+      }
+    },
+    "settings": {
+      "title": "Appearance & Settings",
+      "theme": {
+        "label": "Theme",
+        "description": "The theme to use for your WordPress site."
+      },
+      "language": {
+        "label": "Language",
+        "description": "Select at least one language for your site."
+      }
+    },
+    "submit": {
+      "text": "Create the site",
+      "success": {
+        "text": "Site successfully created",
+        "subText": "The site has been added to the list"
+      },
+      "error": {
+        "text": "Error while creating the site",
+        "subText": "Please check the provided information"
+      }
+    }
+  },
+  "Error": {
+    "notFound": {
+      "text": "Page not found",
+      "subText": "The page you are looking for does not exist"
+    },
+    "unauthorized": {
+      "text": "Unauthorized access",
+      "subText": "You are not authorized to access this page"
+    },
+    "serverError": {
+      "text": "Server error",
+      "subText": "An error occurred on the server"
+    }
   }
 }

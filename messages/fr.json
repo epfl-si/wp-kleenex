@@ -3,8 +3,70 @@
     "title": "Bienvenue sur la page d'accueil"
   },
   "Sidebar": {
-    "home": "Mes sites web",
+    "home": "Mes sites",
+    "new": "Nouveau site",
     "trash": "Corbeille",
-    "all": "Tous les sites web"
+    "all": "Tous les sites "
+  },
+  "SitesList": {
+    "title": "Liste de tous les sites",
+    "error": {
+      "text": "Une erreur s'est produite lors du chargement des sites",
+      "subText": "Veuillez réessayer plus tard",
+      "empty": "Aucun site trouvé"
+    }
+  },
+  "NewSite": {
+    "title": "Créer un nouveau site",
+    "subTitle": "Ajoutez un nouveau site à votre liste",
+    "information": {
+      "title": "Informations sur le site",
+      "name": {
+        "label": "Titre du site",
+        "placeholder": "My test site",
+        "description": "Le titre de votre site WordPress."
+      },
+      "tagline": {
+        "label": "Slogan du site",
+        "placeholder": "My test site tagline",
+        "description": "Une brève description de votre site."
+      }
+    },
+    "settings": {
+      "title": "Apparence et paramètres",
+      "theme": {
+        "label": "Thème",
+        "description": "Le thème à utiliser pour votre site WordPress."
+      },
+      "language": {
+        "label": "Langue",
+        "description": "Sélectionnez au moins une langue pour votre site."
+      }
+    },
+    "submit": {
+      "text": "Créer le site",
+      "success": {
+        "text": "Site créé avec succès",
+        "subText": "Le site a été ajouté à la liste"
+      },
+      "error": {
+        "text": "Erreur lors de la création du site",
+        "subText": "Veuillez vérifier les informations saisies"
+      }
+    }
+  },
+  "Error": {
+    "notFound": {
+      "text": "Page non trouvée",
+      "subText": "La page que vous recherchez n'existe pas"
+    },
+    "unauthorized": {
+      "text": "Accès non autorisé",
+      "subText": "Vous n'êtes pas autorisé à accéder à cette page"
+    },
+    "serverError": {
+      "text": "Erreur du serveur",
+      "subText": "Une erreur s'est produite sur le serveur"
+    }
   }
 }
