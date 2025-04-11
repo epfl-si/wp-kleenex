@@ -5,14 +5,13 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
-import { Header } from '@/components/header';
-import { Sidebar } from '@/components/sidebar';
+import { SessionProvider } from '@/components/session-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
 	title: 'WP-Kleenex',
-	description: 'Best way to find the best fries',
+	description: 'A web application for create temporary wordpress sites',
 	icons: {
 		icon: [
 			{
@@ -22,7 +21,7 @@ export const metadata: Metadata = {
 	},
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children, session }: Readonly<{ children: React.ReactNode; session: any }>) {
 	const locale = await getLocale();
 	const messages = await getMessages();
 
@@ -30,11 +29,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 		<html lang={locale} className="h-full">
 			<body className={cn('antialiased h-full flex flex-col', inter.className)}>
 				<NextIntlClientProvider messages={messages}>
-					<Header />
-					<main className="flex sm:h-[calc(100%-90px)]">
-						<Sidebar />
-						{children}
-					</main>
+					<SessionProvider session={session}>{children}</SessionProvider>
 				</NextIntlClientProvider>
 			</body>
 		</html>
