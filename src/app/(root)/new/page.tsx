@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Input } from '@/components/ui/input';
@@ -10,37 +10,41 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useTranslations } from 'next-intl';
-
-const wordpressSiteSchema = z.object({
-	title: z.string().min(1),
-	tagline: z.string().min(1),
-	theme: z.enum(['wp-theme-2018', 'wp-theme-light', 'epfl-master', 'epfl-blank']),
-	languages: z.array(z.string().regex(/^[a-z]{2}$/)).min(1),
-	debug: z.boolean().default(false),
-});
+import { cn } from '@/lib/utils';
+import { CircleAlert, CircleCheck } from 'lucide-react';
+import { wordpressSiteSchema } from '@/types/site';
 
 type FormValues = z.infer<typeof wordpressSiteSchema>;
 
+type SubmissionResult = {
+	success: boolean;
+	message: string;
+	url?: string;
+};
+
 export default function NewWordpressSite() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [submissionResult, setSubmissionResult] = useState<{ success: boolean; message: string } | null>(null);
+	const [submissionResult, setSubmissionResult] = useState<SubmissionResult | null>(null);
 
 	const t = useTranslations('NewSite');
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(wordpressSiteSchema),
 		defaultValues: {
+			title: '',
+			tagline: '',
 			theme: 'wp-theme-2018',
 			languages: ['en'],
 			debug: false,
+			type: 'basic',
+			expiration: 10800 as 10800 | 21600 | 43200,
 		},
 	});
 
 	const formState = form.formState;
 
-	async function onSubmit(data: FormValues) {
+	const onSubmit: SubmitHandler<FormValues> = async (data) => {
 		setIsSubmitting(true);
 		setSubmissionResult(null);
 
@@ -52,28 +56,41 @@ export default function NewWordpressSite() {
 					theme: data.theme,
 					languages: data.languages,
 					debug: data.debug,
-					plugins: {},
+					type: data.type,
+					expiration: data.expiration,
 				},
 			};
 
-			console.log('Submitting WordPress configuration:', wordpressSite);
+			const response = await fetch('/api/create', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(wordpressSite),
+			});
 
-			await new Promise((resolve) => setTimeout(resolve, 1000));
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.message || 'Failed to create WordPress site');
+			}
+
+			const result = await response.json();
 
 			setSubmissionResult({
 				success: true,
 				message: t('submit.success.text'),
+				url: result.url,
 			});
 		} catch (error) {
 			console.error('Error configuring site:', error);
 			setSubmissionResult({
 				success: false,
-				message: error instanceof Error ? error.message : t('submit.error.text'),
+				message: error instanceof Error ? `${t('submit.error.text')}: ${error.message}` : t('submit.error.text'),
 			});
 		} finally {
 			setIsSubmitting(false);
 		}
-	}
+	};
 
 	return (
 		<div className="p-6 w-full">
@@ -83,7 +100,6 @@ export default function NewWordpressSite() {
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-						{/* Left Column */}
 						<div className="space-y-6 bg-white py-4">
 							<h2 className="text-xl font-semibold mb-4">{t('information.title')}</h2>
 							<Separator className="mb-6" />
@@ -119,8 +135,7 @@ export default function NewWordpressSite() {
 							/>
 						</div>
 
-						{/* Right Column */}
-						<div className="space-y-6 bg-white py-6">
+						<div className="space-y-6 bg-white py-4">
 							<h2 className="text-xl font-semibold mb-4">{t('settings.title')}</h2>
 							<Separator className="mb-6" />
 
@@ -130,7 +145,7 @@ export default function NewWordpressSite() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>{t('settings.theme.label')}</FormLabel>
-										<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<Select onValueChange={field.onChange} value={field.value}>
 											<FormControl>
 												<SelectTrigger>
 													<SelectValue placeholder="Select a theme" />
@@ -177,20 +192,87 @@ export default function NewWordpressSite() {
 									</FormItem>
 								)}
 							/>
+
+							<FormField
+								control={form.control}
+								name="type"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>{t('settings.type.label') || 'Site Type'}</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Select a site type" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value="basic">Basic</SelectItem>
+												<SelectItem value="academic">Academic</SelectItem>
+												<SelectItem value="lab">Laboratory</SelectItem>
+												<SelectItem value="project">Project</SelectItem>
+											</SelectContent>
+										</Select>
+										<FormDescription>{t('settings.type.description') || 'Choose the type of WordPress site you want to create.'}</FormDescription>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name="expiration"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>{t('settings.expiration.label') || 'Site Expiration'}</FormLabel>
+										<Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value.toString()}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Select expiration time" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value="10800">3 Hours</SelectItem>
+												<SelectItem value="21600">6 Hours</SelectItem>
+												<SelectItem value="43200">12 Hours</SelectItem>
+											</SelectContent>
+										</Select>
+										<FormDescription>{t('settings.expiration.description') || 'Choose how long your site will be available.'}</FormDescription>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name="debug"
+								render={({ field }) => (
+									<FormItem className="flex flex-row items-start space-x-3 space-y-0 mt-6">
+										<FormControl>
+											<Checkbox checked={field.value} onCheckedChange={field.onChange} />
+										</FormControl>
+										<div className="space-y-1 leading-none">
+											<FormLabel>{t('settings.debug.label') || 'Enable Debug Mode'}</FormLabel>
+											<FormDescription>{t('settings.debug.description') || 'Enable debug mode for development purposes.'}</FormDescription>
+										</div>
+									</FormItem>
+								)}
+							/>
 						</div>
 					</div>
 
 					{submissionResult && (
-						<Alert variant={submissionResult.success ? 'default' : 'destructive'} className="mt-6">
-							<AlertDescription>{submissionResult.message}</AlertDescription>
-						</Alert>
+						<div className={cn('mt-6 flex items-center gap-1 p-3', submissionResult.success ? 'border border-green-500 text-green-400' : 'border border-red-500 text-red-400')}>
+							{submissionResult.success ? <CircleCheck className="h-5 w-5" /> : <CircleAlert className="h-5 w-5" />}
+							<span>{submissionResult.message}</span>
+							{submissionResult.url && <span className="ml-2">{submissionResult.url}</span>}
+						</div>
 					)}
 
-					<div className="flex justify-end gap-4 pt-6">
+					<div className="flex justify-end gap-2 pt-6">
 						<Button variant="outline" type="button" onClick={() => form.reset()}>
 							Reset
 						</Button>
-						<Button type="submit" disabled={isSubmitting || !formState.isValid}>
+						<Button type="submit" className="cursor-pointer" disabled={isSubmitting || !formState.isValid}>
 							{isSubmitting ? 'Creating...' : t('submit.text')}
 						</Button>
 					</div>
