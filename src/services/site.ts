@@ -58,10 +58,11 @@ export async function createSite(site: Site): Promise<APIError> {
 		};
 	}
 }
+
 export async function getSites(): Promise<Site[] | null> {
 	try {
 		const session = await auth();
-		if (!session || !session.user.role || session.user.role !== 'admin') {
+		if (!session) {
 			return null;
 		}
 
@@ -70,11 +71,40 @@ export async function getSites(): Promise<Site[] | null> {
 		const response: any = await customObjectsApi.listNamespacedCustomObject({
 			group: 'wordpress.epfl.ch',
 			version: 'v2',
-			namespace: namespace,
+			namespace,
 			plural: 'wordpresssites',
 		});
 
-		return response?.items.map((site: any) => site.spec) ?? null;
+		if (!response?.items) {
+			return [];
+		}
+
+		return response.items
+			.filter((item: any) => item.metadata?.labels && item.metadata.labels['app.kubernetes.io/managed-by'] === 'wp-kleenex')
+			.map((item: any) => ({
+				id: item.metadata.name.replace('wp-kleenex-', ''),
+				hostname: item.spec.hostname,
+				path: item.spec.path,
+				owner: item.metadata.annotations['wp-kleenex.epfl.ch/owner'],
+				expiration: parseInt(item.metadata.annotations['wp-kleenex.epfl.ch/expiration']),
+				creationTimestamp: new Date(item.metadata.creationTimestamp),
+				expirationTimestamp: new Date(new Date(item.metadata.creationTimestamp).getTime() + parseInt(item.metadata.annotations['wp-kleenex.epfl.ch/expiration']) * 1000),
+				type: item.metadata.annotations['wp-kleenex.epfl.ch/type'],
+				wordpress: {
+					title: item.spec.wordpress.title,
+					tagline: item.spec.wordpress.tagline,
+					theme: item.spec.wordpress.theme,
+					languages: item.spec.wordpress.languages,
+					debug: item.spec.wordpress.debug,
+					plugins: item.spec.wordpress.plugins || [],
+					type: item.metadata.annotations['wp-kleenex.epfl.ch/type'],
+				},
+			}));
+	} catch (error) {
+		console.error('Error getting sites:', error);
+		return null;
+	}
+}
 	} catch (error) {
 		console.error('Error getting sites', error);
 		return null;
