@@ -39,11 +39,13 @@ export const SitesList: React.FC<{ sites: Site[] }> = ({ sites }) => {
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
 	return (
-		<div className="w-full flex flex-col h-full">
+		<div className="w-full flex-1 flex flex-col h-full">
 			<div className="flex-grow overflow-hidden">
 				<div className="p-6">
 					<div className="w-full">
-						<h1 className="text-3xl font-bold text-gray-800">{t('title')}</h1>
+						<section className="">
+							<h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
+						</section>
 
 						<div className="overflow-x-auto bg-white mt-6 mb-16">
 							<TableView sites={currentSites} />
