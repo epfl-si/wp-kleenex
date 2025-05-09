@@ -11,36 +11,51 @@ export async function createSite(site: Site): Promise<APIError> {
 		}
 
 		const namespace = await getNamespace();
-		const hostname = process.env.WEBSITE_HOST || 'wp-kleenex.epfl.ch';
 
 		const k8sSite = {
 			apiVersion: 'wordpress.epfl.ch/v2',
 			kind: 'WordpressSite',
 			metadata: {
 				name: `wp-kleenex-${site.id}`,
+				namespace: namespace,
+				labels: {
+					'app.kubernetes.io/managed-by': 'wp-kleenex',
+				},
 				annotations: {
-					[`${hostname}/owner`]: site.owner,
-					[`${hostname}/expiration`]: site.expiration.toString(),
-					expirationTimestamp: new Date(Date.now() + Number(site.expiration)).toISOString(),
+					'wp-kleenex.epfl.ch/owner': site.owner,
+					'wp-kleenex.epfl.ch/type': site.type,
+					'wp-kleenex.epfl.ch/expiration': site.expiration.toString(),
 				},
 			},
 			spec: {
-				hostname: hostname,
+				hostname: site.hostname,
+				path: site.path,
+				wordpress: {
+					title: site.wordpress.title,
+					tagline: site.wordpress.tagline,
+					theme: site.wordpress.theme,
+					languages: site.wordpress.languages,
+					debug: site.wordpress.debug,
+					plugins: {},
+				},
 			},
 		};
 
 		await customObjectsApi.createNamespacedCustomObject({
 			group: 'wordpress.epfl.ch',
 			version: 'v2',
-			namespace: namespace,
+			namespace,
 			plural: 'wordpresssites',
 			body: k8sSite,
 		});
 
 		return { status: 201, message: 'Created' };
 	} catch (error) {
-		console.error('Error creating site', error);
-		return { status: 500, message: 'Internal Server Error' };
+		console.error('Error creating site:', error);
+		return {
+			status: 500,
+			message: error instanceof Error ? error.message : 'Internal Server Error',
+		};
 	}
 }
 export async function getSites(): Promise<Site[] | null> {
