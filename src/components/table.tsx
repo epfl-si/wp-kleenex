@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Site } from '@/types/site';
-import { Trash2, ExternalLink } from 'lucide-react';
+import { Trash2, ExternalLink, UserRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
@@ -15,6 +15,9 @@ export const TableView: React.FC<{ sites: Site[] }> = ({ sites }) => (
 				</th>
 				<th scope="col" className="px-6 py-3 w-1/4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 					Description
+				</th>
+				<th scope="col" className="px-6 py-3 w-1/8 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+					Propriétaire
 				</th>
 				<th scope="col" className="px-6 py-3 w-8 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 					Type
@@ -38,6 +41,10 @@ export const TableView: React.FC<{ sites: Site[] }> = ({ sites }) => (
 					</td>
 					<td className="px-6 py-4">
 						<div className="text-sm text-gray-500 max-w-xs truncate">{site.wordpress.tagline}</div>
+					</td>
+					<td className="px-6 py-4 flex items-center gap-1 whitespace-nowrap">
+						<UserRound className="h-5 w-5" />
+						{site.owner}
 					</td>
 					<td className="px-6 py-4 whitespace-nowrap">
 						{site.wordpress.type && (
