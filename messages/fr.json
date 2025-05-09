@@ -1,45 +1,94 @@
 {
   "Home": {
-    "title": "Bienvenue sur la page d'accueil"
+    "title": "Bienvenue sur WP-Kleenex",
+    "welcome": "Bienvenue sur WP-Kleenex",
+    "description": "Créez des sites WordPress temporaires pour des tests, du développement ou des formations. Les sites sont automatiquement supprimés après leur période d'expiration.",
+    "quickCreate": "Créer un nouveau site",
+    "quickCreateDesc": "Configurez un nouveau site WordPress temporaire en quelques étapes.",
+    "createButton": "Créer maintenant",
+    "activeSites": "Sites actifs",
+    "activeSitesDesc": "Sites temporaires actuellement en cours d'exécution",
+    "expiringSoon": "Expiration proche",
+    "expiringSoonDesc": "Sites qui expireront dans les prochaines 3 heures",
+    "siteInfo": "À propos",
+    "siteInfoDesc": "Apprenez à utiliser efficacement les sites WordPress temporaires",
+    "learnMoreButton": "En savoir plus",
+    "helpTitle": "Besoin d'aide ?",
+    "helpDesc": "Trouvez des ressources et du support pour vos sites WordPress",
+    "contactSupport": "Contacter le support",
+    "wordpressGuide": "Guide WordPress"
   },
   "Sidebar": {
-    "home": "Mes sites",
+    "home": "Tableau de bord",
     "new": "Nouveau site",
     "trash": "Corbeille",
-    "all": "Tous les sites "
+    "all": "Tous les sites",
+    "settings": "Paramètres",
+    "help": "Aide & Support"
   },
   "SitesList": {
-    "title": "Liste de tous les sites",
+    "title": "Tous les sites web",
+    "subtitle": "Gérez vos sites WordPress temporaires",
+    "loadingMessage": "Chargement des données du site...",
     "error": {
       "text": "Une erreur s'est produite lors du chargement des sites",
       "subText": "Veuillez réessayer plus tard",
       "empty": "Aucun site trouvé"
+    },
+    "tableHeaders": {
+      "title": "Titre",
+      "description": "Description",
+      "type": "Type",
+      "languages": "Langues",
+      "plugins": "Plugins",
+      "actions": "Actions",
+      "expiration": "Expire dans",
+      "created": "Créé le",
+      "status": "Statut"
+    },
+    "actions": {
+      "delete": "Supprimer",
+      "visit": "Visiter le site",
+      "extend": "Prolonger",
+      "details": "Voir les détails"
+    },
+    "filters": {
+      "all": "Tous les sites",
+      "mine": "Mes sites",
+      "expiringSoon": "Expiration proche",
+      "search": "Rechercher des sites..."
+    },
+    "status": {
+      "active": "Actif",
+      "expiringSoon": "Expiration proche",
+      "expired": "Expiré",
+      "creating": "En création"
     }
   },
   "NewSite": {
-    "title": "Créer un nouveau site",
-    "subTitle": "Ajoutez un nouveau site à votre liste",
+    "title": "Créer un nouveau site WordPress",
+    "subTitle": "Votre site sera automatiquement supprimé après la période d'expiration sélectionnée",
     "information": {
       "title": "Informations sur le site",
       "name": {
         "label": "Titre du site",
-        "placeholder": "My test site",
+        "placeholder": "Mon site de test",
         "description": "Le titre de votre site WordPress."
       },
       "tagline": {
         "label": "Slogan du site",
-        "placeholder": "My test site tagline",
-        "description": "Une brève description de votre site."
+        "placeholder": "Une brève description de votre site",
+        "description": "Une courte description de votre site (facultatif)."
       }
     },
     "settings": {
       "title": "Apparence et paramètres",
       "theme": {
         "label": "Thème",
-        "description": "Le thème à utiliser pour votre site WordPress."
+        "description": "Choisissez un thème visuel pour votre site WordPress."
       },
       "language": {
-        "label": "Langue",
+        "label": "Langues",
         "description": "Sélectionnez au moins une langue pour votre site."
       },
       "type": {
@@ -48,21 +97,38 @@
       },
       "expiration": {
         "label": "Durée de vie",
-        "description": "Choisissez la durée pendant laquelle votre site sera disponible."
+        "description": "Votre site sera supprimé après cette période."
       },
       "debug": {
         "label": "Mode débogage",
-        "description": "Activer le mode débogage pour le développement."
+        "description": "Activez le mode débogage pour le développement."
       }
     },
     "submit": {
       "text": "Créer le site",
       "success": {
-        "text": "Site créé avec succès! Il est accessible à l'adresse suivante: "
+        "text": "Site créé avec succès ! Il est accessible à l'adresse :"
       },
       "error": {
         "text": "Erreur lors de la création du site"
       }
+    },
+    "types": {
+      "basic": "Site basique",
+      "academic": "Site académique",
+      "lab": "Site de laboratoire",
+      "project": "Site de projet"
+    },
+    "themes": {
+      "wp-theme-2018": "EPFL 2018",
+      "wp-theme-light": "EPFL Light",
+      "epfl-master": "EPFL Master",
+      "epfl-blank": "EPFL Blank"
+    },
+    "expirations": {
+      "3hours": "3 heures",
+      "6hours": "6 heures",
+      "12hours": "12 heures"
     }
   },
   "Error": {
@@ -78,5 +144,16 @@
       "text": "Erreur du serveur",
       "subText": "Une erreur s'est produite sur le serveur"
     }
+  },
+  "Actions": {
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "reset": "Réinitialiser",
+    "close": "Fermer",
+    "visit": "Visiter",
+    "saving": "Enregistrement..."
   }
 }

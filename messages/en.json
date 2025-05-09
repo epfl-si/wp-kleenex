@@ -1,24 +1,73 @@
 {
   "Home": {
-    "title": "Welcome to the home page"
+    "title": "Welcome to WP-Kleenex",
+    "welcome": "Welcome to WP-Kleenex",
+    "description": "Create temporary WordPress sites for testing, development, or training purposes. Sites are automatically deleted after their expiration period.",
+    "quickCreate": "Create New Site",
+    "quickCreateDesc": "Set up a new temporary WordPress site in just a few steps.",
+    "createButton": "Create Now",
+    "activeSites": "Active Sites",
+    "activeSitesDesc": "Currently running temporary sites",
+    "expiringSoon": "Expiring Soon",
+    "expiringSoonDesc": "Sites that will expire in the next 3 hours",
+    "siteInfo": "About",
+    "siteInfoDesc": "Learn how to use temporary WordPress sites effectively",
+    "learnMoreButton": "Learn More",
+    "helpTitle": "Need Help?",
+    "helpDesc": "Find resources and support for your WordPress sites",
+    "contactSupport": "Contact Support",
+    "wordpressGuide": "WordPress Guide"
   },
   "Sidebar": {
-    "home": "My websites",
-    "new": "New website",
+    "home": "Dashboard",
+    "new": "New Site",
     "trash": "Trash",
-    "all": "All websites"
+    "all": "All Sites",
+    "settings": "Settings",
+    "help": "Help & Support"
   },
   "SitesList": {
-    "title": "All websites list",
+    "title": "All Websites",
+    "subtitle": "Manage your temporary WordPress sites",
+    "loadingMessage": "Loading site data...",
     "error": {
       "text": "An error occurred while loading websites",
       "subText": "Please try again later",
       "empty": "No websites found"
+    },
+    "tableHeaders": {
+      "title": "Title",
+      "description": "Description",
+      "type": "Type",
+      "languages": "Languages",
+      "plugins": "Plugins",
+      "actions": "Actions",
+      "expiration": "Expires In",
+      "created": "Created",
+      "status": "Status"
+    },
+    "actions": {
+      "delete": "Delete",
+      "visit": "Visit Site",
+      "extend": "Extend Time",
+      "details": "View Details"
+    },
+    "filters": {
+      "all": "All Sites",
+      "mine": "My Sites",
+      "expiringSoon": "Expiring Soon",
+      "search": "Search sites..."
+    },
+    "status": {
+      "active": "Active",
+      "expiringSoon": "Expiring Soon",
+      "expired": "Expired",
+      "creating": "Creating"
     }
   },
   "NewSite": {
-    "title": "Create a new site",
-    "subTitle": "Add a new site to your list",
+    "title": "Create a new WordPress site",
+    "subTitle": "Your site will be automatically deleted after the selected expiration time",
     "information": {
       "title": "Site Information",
       "name": {
@@ -28,18 +77,18 @@
       },
       "tagline": {
         "label": "Site Tagline",
-        "placeholder": "My test site tagline",
-        "description": "A short description of your site."
+        "placeholder": "A short description of your site",
+        "description": "A brief description of your site (optional)."
       }
     },
     "settings": {
       "title": "Appearance & Settings",
       "theme": {
         "label": "Theme",
-        "description": "The theme to use for your WordPress site."
+        "description": "Choose a visual theme for your WordPress site."
       },
       "language": {
-        "label": "Language",
+        "label": "Languages",
         "description": "Select at least one language for your site."
       },
       "type": {
@@ -48,7 +97,7 @@
       },
       "expiration": {
         "label": "Site Expiration",
-        "description": "Choose how long your site will be available."
+        "description": "Your site will be deleted after this period."
       },
       "debug": {
         "label": "Debug Mode",
@@ -56,13 +105,30 @@
       }
     },
     "submit": {
-      "text": "Create the site",
+      "text": "Create Site",
       "success": {
-        "text": "Site successfully created! It is accessible at the following address: "
+        "text": "Site successfully created! It is accessible at:"
       },
       "error": {
         "text": "Error while creating the site"
       }
+    },
+    "types": {
+      "basic": "Basic Site",
+      "academic": "Academic Site",
+      "lab": "Laboratory Site",
+      "project": "Project Site"
+    },
+    "themes": {
+      "wp-theme-2018": "EPFL 2018",
+      "wp-theme-light": "EPFL Light",
+      "epfl-master": "EPFL Master",
+      "epfl-blank": "EPFL Blank"
+    },
+    "expirations": {
+      "3hours": "3 Hours",
+      "6hours": "6 Hours",
+      "12hours": "12 Hours"
     }
   },
   "Error": {
@@ -78,5 +144,16 @@
       "text": "Server error",
       "subText": "An error occurred on the server"
     }
+  },
+  "Actions": {
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "edit": "Edit",
+    "reset": "Reset",
+    "close": "Close",
+    "visit": "Visit",
+    "saving": "Saving..."
   }
 }
