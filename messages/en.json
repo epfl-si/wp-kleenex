@@ -41,17 +41,27 @@
       "language": {
         "label": "Language",
         "description": "Select at least one language for your site."
+      },
+      "type": {
+        "label": "Site Type",
+        "description": "Choose the type of WordPress site you want to create."
+      },
+      "expiration": {
+        "label": "Site Expiration",
+        "description": "Choose how long your site will be available."
+      },
+      "debug": {
+        "label": "Debug Mode",
+        "description": "Enable debug mode for development purposes."
       }
     },
     "submit": {
       "text": "Create the site",
       "success": {
-        "text": "Site successfully created",
-        "subText": "The site has been added to the list"
+        "text": "Site successfully created! It is accessible at the following address: "
       },
       "error": {
-        "text": "Error while creating the site",
-        "subText": "Please check the provided information"
+        "text": "Error while creating the site"
       }
     }
   },

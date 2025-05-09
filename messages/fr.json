@@ -41,17 +41,27 @@
       "language": {
         "label": "Langue",
         "description": "Sélectionnez au moins une langue pour votre site."
+      },
+      "type": {
+        "label": "Type de site",
+        "description": "Choisissez le type de site WordPress que vous souhaitez créer."
+      },
+      "expiration": {
+        "label": "Durée de vie",
+        "description": "Choisissez la durée pendant laquelle votre site sera disponible."
+      },
+      "debug": {
+        "label": "Mode débogage",
+        "description": "Activer le mode débogage pour le développement."
       }
     },
     "submit": {
       "text": "Créer le site",
       "success": {
-        "text": "Site créé avec succès",
-        "subText": "Le site a été ajouté à la liste"
+        "text": "Site créé avec succès! Il est accessible à l'adresse suivante: "
       },
       "error": {
-        "text": "Erreur lors de la création du site",
-        "subText": "Veuillez vérifier les informations saisies"
+        "text": "Erreur lors de la création du site"
       }
     }
   },
