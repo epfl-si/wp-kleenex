@@ -105,6 +105,61 @@ export async function getSites(): Promise<Site[] | null> {
 		return null;
 	}
 }
+
+export async function getUserSites(): Promise<Site[] | null> {
+	try {
+		const session = await auth();
+		if (!session) {
+			return null;
+		}
+
+		const allSites = await getSites();
+		if (!allSites) {
+			return null;
+		}
+
+		return allSites.filter((site) => site.owner === session.user.employeeId);
+	} catch (error) {
+		console.error('Error getting user sites:', error);
+		return null;
+	}
+}
+
+export async function deleteSite(siteId: string): Promise<APIError> {
+	try {
+		const session = await auth();
+		if (!session) {
+			return { status: 401, message: 'Unauthorized' };
+		}
+
+		const namespace = await getNamespace();
+
+		if (session.user.role !== 'admin') {
+			const sites = await getUserSites();
+			const siteToDelete = sites?.find((site) => site.id === siteId);
+
+			if (!siteToDelete) {
+				return { status: 403, message: 'You are not authorized to delete this site' };
+			}
+		}
+
+		await customObjectsApi.deleteNamespacedCustomObject({
+			group: 'wordpress.epfl.ch',
+			version: 'v2',
+			namespace,
+			plural: 'wordpresssites',
+			name: `wp-kleenex-${siteId}`,
+		});
+
+		return { status: 200, message: 'Deleted' };
+	} catch (error) {
+		console.error('Error deleting site:', error);
+		return {
+			status: 500,
+			message: error instanceof Error ? error.message : 'Internal Server Error',
+		};
+	}
+}
 	} catch (error) {
 		console.error('Error getting sites', error);
 		return null;
