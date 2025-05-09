@@ -11,12 +11,30 @@ export async function createSite(site: Site): Promise<APIError> {
 		}
 
 		const namespace = await getNamespace();
+		const hostname = process.env.WEBSITE_HOST || 'wp-kleenex.epfl.ch';
+
+		const k8sSite = {
+			apiVersion: 'wordpress.epfl.ch/v2',
+			kind: 'WordpressSite',
+			metadata: {
+				name: `wp-kleenex-${site.id}`,
+				annotations: {
+					[`${hostname}/owner`]: site.owner,
+					[`${hostname}/expiration`]: site.expiration.toString(),
+					expirationTimestamp: new Date(Date.now() + Number(site.expiration)).toISOString(),
+				},
+			},
+			spec: {
+				hostname: hostname,
+			},
+		};
+
 		await customObjectsApi.createNamespacedCustomObject({
 			group: 'wordpress.epfl.ch',
 			version: 'v2',
 			namespace: namespace,
 			plural: 'wordpresssites',
-			body: site,
+			body: k8sSite,
 		});
 
 		return { status: 201, message: 'Created' };
@@ -25,7 +43,6 @@ export async function createSite(site: Site): Promise<APIError> {
 		return { status: 500, message: 'Internal Server Error' };
 	}
 }
-
 export async function getSites(): Promise<Site[] | null> {
 	try {
 		const session = await auth();
