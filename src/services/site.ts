@@ -160,8 +160,52 @@ export async function deleteSite(siteId: string): Promise<APIError> {
 		};
 	}
 }
+
+export async function getSiteStats(): Promise<{
+	total: number;
+	active: number;
+	expiring: number;
+} | null> {
+	try {
+		const sites = await getSites();
+		if (!sites) {
+			return null;
+		}
+
+		const now = new Date();
+		const threeHoursFromNow = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+
+		return {
+			total: sites.length,
+			active: sites.filter((site) => new Date(site.expirationTimestamp || '') > now).length,
+			expiring: sites.filter((site) => {
+				const expirationDate = new Date(site.expirationTimestamp || '');
+				return expirationDate > now && expirationDate <= threeHoursFromNow;
+			}).length,
+		};
 	} catch (error) {
-		console.error('Error getting sites', error);
+		console.error('Error getting site stats:', error);
 		return null;
+	}
+}
+
+export async function findExpiredSites(): Promise<string[]> {
+	try {
+		const sites = await getSites();
+		if (!sites) {
+			return [];
+		}
+
+		const now = new Date();
+
+		return sites
+			.filter((site) => {
+				const expirationDate = new Date(site.expirationTimestamp || '');
+				return isNaN(expirationDate.getTime()) || expirationDate <= now;
+			})
+			.map((site) => site.id);
+	} catch (error) {
+		console.error('Error finding expired sites:', error);
+		return [];
 	}
 }
