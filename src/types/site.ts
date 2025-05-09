@@ -23,7 +23,7 @@ export interface Site {
 
 export const wordpressSiteSchema = z.object({
 	title: z.string().min(1, 'Title is required'),
-	tagline: z.string().optional().default(''),
+	tagline: z.string(),
 	theme: z.enum(['wp-theme-2018', 'wp-theme-light', 'epfl-master', 'epfl-blank'], {
 		errorMap: () => ({ message: 'Please select a valid theme' }),
 	}),
@@ -41,7 +41,7 @@ export const wordpressSiteSchema = z.object({
 			errorMap: () => ({ message: 'Please select a valid expiration time' }),
 		}
 	),
-	debug: z.boolean().default(false),
+	debug: z.boolean(),
 });
 
 export type SiteFormValues = z.infer<typeof wordpressSiteSchema>;
