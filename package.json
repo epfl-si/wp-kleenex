@@ -22,7 +22,7 @@
     "lucide-react": "^0.479.0",
     "next": "15.2.2",
     "next-auth": "^5.0.0-beta.25",
-    "next-intl": "^4.0.1",
+    "next-intl": "^4.9.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
